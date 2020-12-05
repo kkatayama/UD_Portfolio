@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 '''
 USAGE: python scrape_img_test.py --image [FILE] --preprocess [blur, thresh] --psm [0-13] --lang [language]
 
