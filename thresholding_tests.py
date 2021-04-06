@@ -1,5 +1,3 @@
-# coding: utf-8
-# %load thresholding_tests.py
 import cv2
 import matplotlib
 import matplotlib.pyplot as plt
