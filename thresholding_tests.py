@@ -1,9 +1,10 @@
 import cv2
 import matplotlib
 import matplotlib.pyplot as plt
-# from skimage.data import page
-from skimage.filters import (threshold_otsu, threshold_triangle, threshold_niblack, threshold_sauvola)
 from skimage import img_as_ubyte
+# from skimage.data import page
+from skimage.filters import (threshold_niblack, threshold_otsu,
+                             threshold_sauvola, threshold_triangle)
 
 
 def show_img_with_matplotlib(color_img, title, pos, num_rows=2):
@@ -18,11 +19,11 @@ def show_img_with_matplotlib(color_img, title, pos, num_rows=2):
     plt.axis('off')
 
 
-def show_hist_with_matplotlib_gray(hist, pos, color, t=-1, num_rows=2):
+def show_hist_with_matplotlib_gray(hist, title, pos, color, t=-1, num_rows=2):
     """Shows the histogram using matplotlib capabilities"""
 
     ax = plt.subplot(num_rows, 2, pos)
-    # plt.title(title)
+    plt.title(title)
     plt.xlabel("bins")
     plt.ylabel("number of pixels")
     plt.xlim([0, 256])
@@ -144,7 +145,7 @@ def thresholding_otsu_ex():
     # Plot all the images:
     show_img_with_matplotlib(image, "image", 1)
     show_img_with_matplotlib(cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR), "gray img", 2)
-    show_hist_with_matplotlib_gray(hist, 3, 'm', ret1, num_rows=2)
+    show_hist_with_matplotlib_gray(hist, "grayscale histogram", 4, 'm', ret1, num_rows=2)
     show_img_with_matplotlib(cv2.cvtColor(th1, cv2.COLOR_GRAY2BGR), "Otsu's binarization", 4)
 
     # Show the Figure:
@@ -179,10 +180,10 @@ def thresholding_otsu_filter_noise():
     # Plot all the images:
     show_img_with_matplotlib(image, "image with noise", 1, num_rows=3)
     show_img_with_matplotlib(cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR), "gray img with noise", 2, num_rows=3)
-    show_hist_with_matplotlib_gray(hist, "grayscale histogram", 3, 'm', ret1, num_rows=3)
+    show_hist_with_matplotlib_gray(hist, "grayscale histogram", 5, 'm', ret1, num_rows=3)
     show_img_with_matplotlib(cv2.cvtColor(th1, cv2.COLOR_GRAY2BGR),
                              "Otsu's binarization (before applying a Gaussian filter)", 4, num_rows=3)
-    show_hist_with_matplotlib_gray(hist2, "grayscale histogram", 5, 'm', ret2, num_rows=3)
+    show_hist_with_matplotlib_gray(hist2, "grayscale histogram (blurred)", 6, 'm', ret2, num_rows=3)
     show_img_with_matplotlib(cv2.cvtColor(th2, cv2.COLOR_GRAY2BGR),
                              "Otsu's binarization (after applying a Gaussian filter)", 6, num_rows=3)
 
