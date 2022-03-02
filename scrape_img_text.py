@@ -10,14 +10,14 @@ python scrape_img_test.py --image images/anje-falkenrath.jpg  --preprocess thres
 python scrape_img_test.py --image images/anje-falkenrath.jpg  --preprocess thresh --psm 3 --lang eng+enm --conf 72 --prob
 '''
 
-from tabulate import tabulate
-from PIL import Image
-import pytesseract
 import argparse
-import cv2
 import os
+
+import cv2
 import pandas as pd
-import argparse
+import pytesseract
+from PIL import Image
+from tabulate import tabulate
 
 
 def print_df(_df):
@@ -89,7 +89,9 @@ if __name__ == '__main__':
     text, data = process_image(args["image"], args["preprocess"], args["psm"], args["lang"])
 
     df = pd.DataFrame.from_dict(data)[['block_num', 'line_num', 'conf', 'text']]
-    df = df[(df['conf'].astype(int) > int(args["conf"])) & (df['text'].str.strip() != '')].reset_index()
+    df["conf"] = df["conf"].apply(lambda x: int(float(x)))
+    conf = int(args["conf"])
+    df = df[(df['conf'] > conf) & (df['text'].str.strip() != '')].reset_index()
 
     # -- print text
     print('--- OCR TEXT ---')

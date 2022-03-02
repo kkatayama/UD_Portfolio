@@ -54,11 +54,20 @@
 #### img_processing_test.py
 > Applying various image processing techniques along side tesseract OCR
 
+#### Helper Functions
 * process_data(data, conf='72')
 * process_image(img, psm='3', language='eng+fra')
 * plot_img(ax, color_img, title)
 * plot_text(ax, text)
-* 
+
+#### Processing Functions
+* thresholding_example()
+  > Apply the previous thresholding example on a card image and then run OCR.
+  ![applied_thresholding](https://github.com/kkatayama/UD_Portfolio/blob/main/readme_images/applied_thresholding.png)
+
+* thresholding_adaptive()
+  > Apply the previous adaptive thresholding example on a card image and then run OCR.
+  ![applied_adaptive_thresholding](https://github.com/kkatayama/UD_Portfolio/blob/main/readme_images/applied_adaptive_thresholding.png)
 
 #### mtg_ocr.py
 > Crop an image prior to applying OCR
@@ -66,23 +75,23 @@
 
 * process_data(data, conf, prob=False)
   > Parse the Tesseract OCR results and print
-  * data - 
-  * conf - 
-  * prob - 
+  * data - object generated from `pytesseract.image_to_data(img, config=config, output_type='dict')`
+  * conf - confidence threshold (default = 72)
+  * prob - option to print probabilitites (default = False)
   
 * process_image(img, process_type, psm, language)
   > Send image to Tesseract OCR for processing
   * RETURNS: (text, data)
-    * text - 
-    * data - 
+    * text - pytesseract.image_to_string(img, config=config, output_type='dict')
+    * data - pytesseract.image_to_data(img, config=config, output_type='dict')
     
 * crop(im, H, W, TB, LR)
   > Crop an image with provided parameters
-  * im - 
-  * H - 
-  * W - 
-  * TB - 
-  * LR - 
+  * im - opencv image object
+  *  H - height
+  *  W - width
+  * TB - top_to_bottom
+  * LR - left_to_right
   
   
 #### scrape_img_text.py
@@ -101,7 +110,24 @@ optional arguments:
   --conf CONF           confidence threshold
   --prob                show probabilitites
 ```
-* print_df(_df)
-  > 
-* process_image(image_file, process_type, psm, language)
-  > 
+
+#### Sample Run
+```bash
+python scrape_img_text.py --preprocess blur --psm 3 --lang eng+fra --image images/anje-falkenrath.png --conf 82
+```
+```asciidoc
+--- OCR TEXT ---
+Anje Falkenrath
+Legendary Creature — Vampire
+Discard a card: Draw a card.
+Whenever you discard a card, if it has
+madness, untap Anje Falkenrath.
+“We all hide a little madness behind our
+sophistication, do we not?”
+037/302 M
+EN CYNTHIA SHEPPARD & © 2019 Wizards of the Coast
+
+--- OCR TEXT (single line)---
+Anje Falkenrath Legendary Creature — Vampire Discard a card: Draw a card. Whenever you discard a card, if it has madness, untap Anje Falkenrath. “We all hide a little madness behind our sophistication, do we not?” 037/302 M EN CYNTHIA SHEPPARD & © 2019 Wizards of the Coast
+```
+![anje_falkenrath](https://github.com/kkatayama/UD_Portfolio/blob/main/images/anje-falkenrath.png)

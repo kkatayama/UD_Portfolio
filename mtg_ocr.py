@@ -1,14 +1,17 @@
 # coding: utf-8
 from glob import glob
+
+import cv2
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytesseract
-import cv2
 
 
 def process_data(data, conf, prob=False):
     df = pd.DataFrame.from_dict(data)[['block_num', 'line_num', 'conf', 'text']]
-    df = df[(df['conf'].astype(int) > int(conf)) & (df['text'].str.strip() != '')].reset_index()
+    df["conf"] = df["conf"].apply(lambda x: int(float(x)))
+    conf = int(conf)
+    df = df[(df['conf'] > conf) & (df['text'].str.strip() != '')].reset_index()
 
     # -- print text
     print('--- OCR TEXT ---')
