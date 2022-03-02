@@ -1,15 +1,18 @@
 #!/usr/bin/env python
-import cv2
+import textwrap
 from glob import glob
+
+import cv2
 import matplotlib.pyplot as plt
 import pandas as pd
 import pytesseract
-import textwrap
 
 
 def process_data(data, conf='72'):
     df = pd.DataFrame.from_dict(data)[['block_num', 'line_num', 'conf', 'text']]
-    df = df[(df['conf'].astype(int) > int(conf)) & (df['text'].str.strip() != '')].reset_index()
+    df["conf"] = df["conf"].apply(lambda x: int(float(x)))
+    conf = int(conf)
+    df = df[(df['conf'] > conf) & (df['text'].str.strip() != '')].reset_index()
 
     text = ''
     # -- append each line block of words
